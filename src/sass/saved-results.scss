@@ -1,0 +1,17 @@
+.remove {
+    // font-size: .7em;
+    
+    cursor: pointer;
+
+    .btn {
+        color: black;
+        background-color: transparent;
+        box-shadow: none;
+        font-size: 1em;
+        transition: .2s ease;
+
+        &:hover {
+            font-weight: bold;
+        }
+    }
+}

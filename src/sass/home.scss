@@ -1,0 +1,51 @@
+.form-wrapper {
+    padding: 1em 0;
+  }
+  
+  .input-field {
+    width: 100%;
+    
+    &.col {
+      padding: 0;
+  
+      label {
+        left: 0;
+      }
+    }
+  }
+  
+  .input-field > label,
+  input[type=number]:not(.browser-default):disabled+label,
+  input[type=number]:not(.browser-default):disabled {
+    color: #333;
+  }
+  input[type=number]:not(.browser-default),
+  input[type=number]:not(.browser-default):disabled,
+  .select-wrapper input.select-dropdown {
+    border-bottom: 1px solid #333;
+  }
+  
+  .input[type="submit"] {
+    color: #FFF;
+    cursor: pointer;
+  }
+  
+  footer.footer {
+    a {
+      text-decoration: underline;
+      font-weight: 500;
+  
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .save-as {
+    .input-field {
+      margin-top: 0;
+      margin-bottom: 0;
+      top: -10px;
+    }
+  }
+  

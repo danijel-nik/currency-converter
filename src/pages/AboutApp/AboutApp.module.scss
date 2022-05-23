@@ -1,0 +1,23 @@
+.AboutApp {
+    margin-top: 30px;
+    margin-left: 10px;
+    width: 100%;
+    div {
+        margin-bottom: 10px;
+    }
+}
+
+a {
+    color: #1e88e5;
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+strong {
+    font-weight: 500;
+}
+
+.InnerText {
+    padding: 15px;
+}

@@ -1,0 +1,100 @@
+.HomeSection {
+    position: relative;
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    background-image: url('/assets/img/currency-converter-bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #1976d2;
+    h1 {
+        text-transform: uppercase;
+        font-size: 3em;
+        text-align: center;
+        @media screen and (max-width: 600px) {
+            font-size: 1.5em;
+        }
+    }
+    h2 {
+        text-transform: uppercase;
+        @media screen and (max-width: 600px) {
+            font-size: 1em;
+            text-align: center;
+        }
+    }
+    li {
+        font-size: 1.3em;
+    }
+    a span {
+        font-size: 1.2em;
+    }
+    div {
+        position: relative;
+        z-index: 1;
+    }
+    &::after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        // background-color: rgba(0, 0, 0, .4);
+        z-index: 0;
+    }
+}
+
+.Left {
+    margin-top: 15vh !important;
+    @media screen and (max-width: 960px) {
+        margin-top: 5vh !important;
+    }
+}
+
+.Map {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-height: 30vh;
+    text-align: center;
+    margin-top: 10vh !important;
+
+    img {
+        width: 100%;
+    }
+
+    div {
+        position: absolute;
+        width: 100%;
+        left: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+
+    h2 {
+        margin-top: 0;
+        margin-bottom: 0;
+        text-transform: uppercase;
+    }
+
+    @media screen and (max-width: 960px) {
+        position: relative;
+        top: -10vh;
+    }
+}
+
+.Bottom {
+    position: absolute !important;
+    width: 100%;
+    bottom: 10vh;
+    text-align: center;
+    @media screen and (max-width: 600px) {
+        position: relative !important;
+        bottom: 0;
+    }
+
+    h3 {
+        margin-bottom: 3em;
+        padding: 0 15px;
+    }
+}

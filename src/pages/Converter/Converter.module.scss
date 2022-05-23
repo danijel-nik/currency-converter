@@ -1,0 +1,98 @@
+.TopFormWrapper, .FormWrapper {
+    margin-top: 20px !important;
+    padding: 15px;
+}
+
+.TopFormWrapper {
+    padding-bottom: 0;
+}
+
+.middle {
+    flex-grow: 1;
+}
+
+.Title {
+    width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: .3s ease;
+    padding-left: 1px;
+}
+
+button {
+    transition: .3s ease;
+    &:hover {
+        .Title {
+            width: 150px;
+        }
+    }
+    .Title {
+        @media screen and (max-width: 599px) {
+            width: 150px;
+        }
+    }
+}
+
+.SaveBtnWrapper {
+    @media screen and (max-width: 599px) {
+        margin-top: 15px !important;
+        text-align: center;
+    }
+}
+
+.Center {
+    display: flex;
+    justify-content: center !important;
+}
+
+.ConvertContainer {
+    margin-top: 15px;
+    padding: 15px;
+}
+
+.Autocomplete {
+    input, div {
+        cursor: pointer !important;
+    }
+}
+
+.Converted {
+    input, label[data-shrink="true"] {
+        width: 100%;
+        cursor: not-allowed;
+        color: #1e88e5 !important;
+        font-weight: bold;
+    }
+}
+
+.dateBtn {
+    margin-bottom: 20px !important;
+    margin-right: 20px !important;
+    svg {
+        margin-right: 10px !important;
+    }
+
+    @media screen and (max-width: 500px) {
+        width: 100% !important;
+    }
+}
+
+.DatePicker {
+    position: relative;
+    top: -17px;
+
+    svg {
+        color: #1e88e5 !important;
+    }
+    @media screen and (max-width: 599px) {
+        width: 100%;
+    }
+}
+.MainRow {
+    margin-top: 0;
+    margin-bottom: 10px !important;
+}
+
+.ExtraRow {
+    margin: initial !important;
+}
