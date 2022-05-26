@@ -2,10 +2,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Container, Grid, Button, Slide, Zoom, Fade } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { GlobalContext } from '../../context/GlobalState';
+import { useTranslation } from 'react-i18next';
 
 import classes from "./Home.module.scss";
 
 const Home = () => {
+    const { t } = useTranslation('home');
     const context = useContext(GlobalContext);
     const [fadeBg, setFadeBg] = useState(false);
     const [zoomTitle, setZoomTitle] = useState(false);
@@ -33,7 +35,7 @@ const Home = () => {
                     <Grid container direction="row" spacing={2}>
                         <Grid item md={6} className={classes.Left}>
                             <Zoom in={zoomTitle}>
-                                <h1>{title}</h1>
+                                <h1>{t('title')}</h1>
                             </Zoom>
                         </Grid>
                         <Grid item md={6} className={classes.Map}>
@@ -43,7 +45,7 @@ const Home = () => {
                             <Fade in={fade}>
                                 <div>
                                     <h2>150<sup>+</sup></h2>
-                                    <h2>{mapTxt}</h2>
+                                    <h2>{t('mapTxt')}</h2>
                                 </div>
                             </Fade>
                         </Grid>
@@ -51,7 +53,7 @@ const Home = () => {
                 </Container>
                     <div className={classes.Bottom}>
                         <Slide direction="up" in={slide}>
-                            <h3>{bottomTxt}</h3>
+                            <h3>{t('bottomTxt')}</h3>
                         </Slide>
                         <Slide direction="up" in={slideBtn}>
                             <Link
@@ -60,7 +62,7 @@ const Home = () => {
                                 to={context.store.nav.homeLink + "convert"}
                                 component={Button}
                             >
-                                    {btnTxt}
+                                    {t('btnTxt')}
                             </Link>
                         </Slide>
                     </div>

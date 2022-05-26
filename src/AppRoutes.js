@@ -11,27 +11,26 @@ import AboutApp from './pages/AboutApp/AboutApp';
 const AppRoutes = () => {
 
     const {store} = useContext(GlobalContext);
-    let homeLink = (store.activeLang === "EN") ? "/" : "/sr/";
     let location = useLocation();
 
     return(
         <>
-            <Route exact path={homeLink}>
+            <Route exact path="/">
                     <Home />
             </Route>
-            <Container className={(location.pathname === homeLink) ? "" : "page"}>
-                <Route exact path={homeLink + 'convert'}>
+            <Container className={(location.pathname === "/") ? "" : "page"}>
+                <Route exact path={'/convert'}>
                     <Converter />
                 </Route>
-                <Route path={homeLink + 'saved-results'}>
+                <Route path={'/saved-results'}>
                     {
-                        (store.currentUser) ? <SavedResults /> : <Redirect to={{ pathname: homeLink + 'sign-in'}} />
+                        (store.currentUser) ? <SavedResults /> : <Redirect to={{ pathname: '/sign-in'}} />
                     }
                 </Route>
-                <Route path={homeLink + 'sign-in'}>
+                <Route path={'/sign-in'}>
                     <Auth />
                 </Route>
-                <Route path={homeLink + 'about'}>
+                <Route path={'/about'}>
                     <AboutApp />
                 </Route>
             </Container>

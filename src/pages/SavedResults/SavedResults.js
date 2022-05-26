@@ -3,11 +3,13 @@ import { Table, TableBody, TableCell, TableRow, TableContainer, TableHead, Paper
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 import firebase from '../../services/Firebase';
 import {GlobalContext} from '../../context/GlobalState';
+import { useTranslation } from 'react-i18next';
 
 import classes from "./SavedResults.module.scss";
 
 const SavedResults = () => {
 
+    const { t } = useTranslation('savedResults');
     const [savedData, setSavedData] = useState([]);
     const {store, loadingComplete} = useContext(GlobalContext);
     const {savedResults} = store.pages;
@@ -40,7 +42,7 @@ const SavedResults = () => {
                         <TableCell>{savedData[key].data().amount} {savedData[key].data().from}</TableCell>
                         <TableCell>{savedData[key].data().converted} {savedData[key].data().to}</TableCell>
                         <TableCell>
-                            <Tooltip title="Remove item">
+                            <Tooltip title={t('removeItemTxt')}>
                                 <IconButton onClick={deleteData.bind(this, savedData[key].id)}>
                                     <DeleteOutlineIcon />
                                 </IconButton>
@@ -51,7 +53,7 @@ const SavedResults = () => {
     } else {
         list = (
             <TableRow>
-                <TableCell>{savedResults.noResults}</TableCell>
+                <TableCell>{t('noResults')}</TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
                 <TableCell></TableCell>
@@ -67,11 +69,11 @@ const SavedResults = () => {
                     {(Object.entries(savedData).length > 0) ? 
                     <TableHead>
                         <TableRow className={classes.TableHead}>
-                            <TableCell>{savedResults.savedName}</TableCell>
-                            <TableCell>{savedResults.savedDate}</TableCell>
-                            <TableCell>{savedResults.insertedValue}</TableCell>
-                            <TableCell>{savedResults.convertedValue}</TableCell>
-                            <TableCell>{savedResults.action}</TableCell>
+                            <TableCell>{t('savedName')}</TableCell>
+                            <TableCell>{t('savedDate')}</TableCell>
+                            <TableCell>{t('insertedValue')}</TableCell>
+                            <TableCell>{t('convertedValue')}</TableCell>
+                            <TableCell>{t('action')}</TableCell>
                         </TableRow>
                     </TableHead> : ""}
                     <TableBody>

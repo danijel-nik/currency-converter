@@ -4,10 +4,13 @@ import SwipeableViews from 'react-swipeable-views';
 import { GlobalContext } from '../../context/GlobalState';
 import { withRouter, Redirect } from 'react-router-dom';
 import firebase from '../../services/Firebase';
+import { useTranslation } from 'react-i18next';
 
 import classes from './Auth.module.scss';
 
 const Auth = ({history}) => {
+
+    const { t } = useTranslation('auth');
 
     const [tabValue, setTabValue] = useState("sign-in");
     const handleChangeTab = (newValue) => {
@@ -32,8 +35,6 @@ const Auth = ({history}) => {
     });
 
     const context = useContext(GlobalContext);
-    let homeLink = (context.store.activeLang === "EN") ? "/" : "/sr/";
-    let { signInTxt, signUpTxt } = context.store.pages;
 
     const signInBtnRef = React.useRef();
     const signUpBtnRef = React.useRef();
@@ -50,7 +51,7 @@ const Auth = ({history}) => {
         firebase.login(signIn.si_email, signIn.si_password)
         .then((user) => {
             context.setUser(user);
-            history.push(homeLink);
+            history.push('/');
             console.log(context.store.currentUser);
         })
         .catch((error) => {
@@ -63,7 +64,7 @@ const Auth = ({history}) => {
         firebase.loginGoogle()
         .then((user) => {
             context.setUser(user);
-            history.push(homeLink);
+            history.push("/");
             console.log(context.store.currentUser);
         })
         .catch((error) => {
@@ -95,8 +96,8 @@ const Auth = ({history}) => {
         setPopoverTriggerEl(null);
     };
 
-    if (context.store.currentUser || !signInTxt) {
-        return <Redirect to={homeLink} />;
+    if (context.store.currentUser) {
+        return <Redirect to="/" />;
     }
 
     return (
@@ -109,19 +110,19 @@ const Auth = ({history}) => {
                     variant="fullWidth" 
                     aria-label="wrapped label tabs example">
                     
-                    <Tab label={signInTxt.header} onClick={() => handleChangeTab("sign-in")} value="sign-in" { ...a11yProps("sign-in") } />
-                    <Tab label={signUpTxt.header} onClick={() => handleChangeTab("register")} value="register" { ...a11yProps("register") } />
+                    <Tab label={t('signInHeader')} onClick={() => handleChangeTab("sign-in")} value="sign-in" { ...a11yProps("sign-in") } />
+                    <Tab label={t('signUpHeader')} onClick={() => handleChangeTab("register")} value="register" { ...a11yProps("register") } />
                 </Tabs>
                     {(tabValue==="sign-in") ? 
                     <Box>
-                        <h3>{signInTxt.signInBtn}</h3>
+                        <h3>{t('signInBtn')}</h3>
                         <TextField 
                             variant="outlined"
                             fullWidth
                             type="email"
                             name="si_email"
                             className={classes.input}
-                            label={signInTxt.email} 
+                            label={t('signInEmail')} 
                             onChange={signInChange}
                         />
 
@@ -131,7 +132,7 @@ const Auth = ({history}) => {
                             type="password"
                             name="si_password"
                             className={classes.input}
-                            label={signInTxt.password}
+                            label={t('signInPassword')}
                             onChange={signInChange}
                         />
 
@@ -142,7 +143,7 @@ const Auth = ({history}) => {
                                 className="waves-effect waves-light"
                                 onClick={handleSignIn}
                                 ref={signInBtnRef} >
-                                    {signInTxt.signInBtn}
+                                    {t('signInBtn')}
                             </Button>
                             <Popover
                                 open={Boolean(popoverTriggerEl)}
@@ -165,21 +166,21 @@ const Auth = ({history}) => {
                                 color="secondary"
                                 className="waves-effect waves-light"
                                 onClick={handleSignInGoogle} >
-                                    {signInTxt.googleSignIn}
+                                    {t('googleSignIn')}
                             </Button>
                         </Grid>
                     </Box> : ""}
 
                     {(tabValue==="register") ?
                     <Box>
-                        <h3>{signUpTxt.signUpBtn}</h3>
+                        <h3>{t('signUpBtn')}</h3>
                         <TextField 
                             variant="outlined"
                             fullWidth
                             type="text"
                             name="name"
                             className={classes.input}
-                            label={signUpTxt.name} 
+                            label={t('signUpName')} 
                             onChange={signUpChange}
                         />
                         <TextField 
@@ -188,7 +189,7 @@ const Auth = ({history}) => {
                             type="email"
                             name="email"
                             className={classes.input}
-                            label={signUpTxt.email}
+                            label={t('signUpEmail')}
                             onChange={signUpChange}
                         />
                         <TextField 
@@ -197,7 +198,7 @@ const Auth = ({history}) => {
                             type="password"
                             name="password"
                             className={classes.input}
-                            label={signUpTxt.password}
+                            label={t('signUpPassword')}
                             onChange={signUpChange}
                         />
 
@@ -209,7 +210,7 @@ const Auth = ({history}) => {
                                 onClick={handleSignUp}
                                 ref={signUpBtnRef}
                                 >
-                                    {signUpTxt.signUpBtn}
+                                    {t('signUpBtn')}
                             </Button>
                         </div>
                         

@@ -11,10 +11,13 @@ import AddIcon from '@material-ui/icons/Add';
 import data from '../../services/Data';
 import firebase from '../../services/Firebase';
 import { GlobalContext } from '../../context/GlobalState';
+import { useTranslation } from 'react-i18next';
 
 import classes from './Converter.module.scss';
 
 const Converter = () => {
+
+    const { t } = useTranslation('converter');
 
     const [currencies, setCurrencies] = useState({});
     const [selectedDate, setSelectedDate] = React.useState(new Date());
@@ -114,7 +117,7 @@ const Converter = () => {
                 })
                 .catch(err => {
                     // Historical data is missing for some currencies
-                    setSnackbarMessage(historicalMissing);
+                    setSnackbarMessage(t('historicalMissing'));
                     openSnackbar();
                     setHistorical(false);
                     setSelectedDate(new Date());
@@ -188,7 +191,7 @@ const Converter = () => {
                     disabled={true}
                     type="text"
                     fullWidth={true}
-                    label={converted}
+                    label={t('converted')}
                     name={"converted_" + id}
                     value={extraCurrencies[id].value} />
             </Grid>
@@ -207,12 +210,10 @@ const Converter = () => {
                             fields[id].currency = "";
                         }
                         setExtraCurrencies(fields);
-                        console.warn(id);
-                        console.log(extraCurrencies);
                     }}
                     renderInput={(params) => 
                         <TextField 
-                            {...params} label={currencyTxt} 
+                            {...params} label={t('currencyTxt')} 
                             variant="outlined" />
                     } 
                 />
@@ -226,25 +227,21 @@ const Converter = () => {
         setExtraCurrencies(exCurrencies);
         setExtraFields([...extraFields, extraField(extraFieldsNumber)]);
         setExtraFieldsNumber(id);
-        console.log(extraCurrencies);
     }
-
-    const { dateTxt, enterValue, currencyTxt, converted, swapBtn, convertBtn, saveResultBtn, popoverNoConversion, popoverAuth, dialogText, saveAs, saveBtn, cancelBtn, historicalMissing, addFieldsTxt } = 
-    (typeof context.store.pages.converter !== "undefined") ? context.store.pages.converter : "";
-
+    
     let showSaveBtn = () => (
         <Grid item xs={12} sm="auto" className={classes.SaveBtnWrapper}>
             <Button 
                 variant="contained" 
                 color="primary" 
                 onClick={(e) => {
-                    if (!context.store.currentUser) { setPopoverText(popoverAuth); openPopover(e); }
-                    else if (saveBtnDisabled) { setPopoverText(popoverNoConversion); openPopover(e); }
+                    if (!context.store.currentUser) { setPopoverText(t('popoverAuth')); openPopover(e); }
+                    else if (saveBtnDisabled) { setPopoverText(t('popoverNoConversion')); openPopover(e); }
                     else openDialog()
                 }} 
                 id="save-result">
                 <SaveRoundedIcon />
-                <span className={classes.Title}>{saveResultBtn}</span>
+                <span className={classes.Title}>{t('saveResultBtn')}</span>
             </Button>
             <Popover
                 id="save-result"
@@ -279,7 +276,7 @@ const Converter = () => {
                                     margin="normal"
                                     id="date-picker-inline"
                                     className={classes.DatePicker}
-                                    label={dateTxt}
+                                    label={t('dateTxt')}
                                     value={selectedDate}
                                     onChange={(date) => { setSelectedDate(date); setHistorical(true); }}
                                     KeyboardButtonProps={{
@@ -303,7 +300,7 @@ const Converter = () => {
                             variant="outlined" 
                             type="number"
                             fullWidth={true}
-                            label={enterValue} 
+                            label={t('enterValue')} 
                             name="amount"
                             onChange={onChange}
                             validate={true}
@@ -331,7 +328,7 @@ const Converter = () => {
                                     })
                                 }
                             }}
-                            renderInput={(params) => <TextField name="from" onChange={onChange} value={form.from.value} {...params} label={currencyTxt} variant="outlined" required={true} />} 
+                            renderInput={(params) => <TextField name="from" onChange={onChange} value={form.from.value} {...params} label={t('currencyTxt')} variant="outlined" required={true} />} 
                         />
                     </Grid>
                     {/* Swap currencies
@@ -351,7 +348,7 @@ const Converter = () => {
                             disabled={true}
                             type="text"
                             fullWidth={true}
-                            label={converted}
+                            label={t('converted')}
                             name="converted" 
                             onChange={onChange}
                             value={form.converted} />
@@ -378,7 +375,7 @@ const Converter = () => {
                                     })
                                 }
                             }}
-                            renderInput={(params) => <TextField name="to" onChange={onChange} value={form.to.value} {...params} label={currencyTxt} variant="outlined" required={true} />} 
+                            renderInput={(params) => <TextField name="to" onChange={onChange} value={form.to.value} {...params} label={t('currencyTxt')} variant="outlined" required={true} />} 
                         />
                     </Grid>
                 </Grid>
@@ -388,7 +385,7 @@ const Converter = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}></Grid>
                     <Grid item xs={12} sm={12} md={6} style={{textAlign: "center", paddingTop: "20px"}}>
-                        <Tooltip title={addFieldsTxt}>
+                        <Tooltip title={t('addFieldsTxt')}>
                             <IconButton onClick={() => addFields()}><AddIcon /></IconButton>
                         </Tooltip>
                     </Grid>
@@ -402,7 +399,7 @@ const Converter = () => {
                             color="primary"
                             onClick={convertCurrency}
                         >
-                                {convertBtn}
+                                {t('convertBtn')}
                         </Button>
                     </Grid>
                     <Hidden only={['sm', 'md', 'lg', 'xl']}>
@@ -414,10 +411,10 @@ const Converter = () => {
 
             {/* Save As Dialog */}
             <Dialog open={dialogOpened} onClose={closeDialog} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">{saveAs}</DialogTitle>
+                <DialogTitle id="form-dialog-title">{t('saveAs')}</DialogTitle>
                 <DialogContent>
                 <DialogContentText>
-                    {dialogText}
+                    {t('dialogText')}
                 </DialogContentText>
                 <TextField
                     autoFocus
@@ -426,15 +423,15 @@ const Converter = () => {
                     name="saveAs"
                     onChange={onChange}
                     validate={true}
-                    label={saveAs}
+                    label={t('saveAs')}
                     fullWidth />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={closeDialog} color="primary">
-                        {cancelBtn}
+                        {t('cancelBtn')}
                     </Button>
                     <Button onClick={saveResult} color="primary" variant="contained" disabled={saveBtnDisabled}>
-                        {saveBtn}
+                        {t('saveBtn')}
                     </Button>
                 </DialogActions>
             </Dialog>

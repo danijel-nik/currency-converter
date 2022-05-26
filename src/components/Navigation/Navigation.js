@@ -10,23 +10,41 @@ import TranslateIcon from '@material-ui/icons/Translate';
 
 import { NavLink, Link } from 'react-router-dom';
 import { GlobalContext } from '../../context/GlobalState';
+import { useTranslation } from 'react-i18next';
 
 import classes from './Navigation.module.scss';
 
 const Navigation = () => {
 
-    const {store, changeLang, signOut} = useContext(GlobalContext);
-    const {activeLang} = store;
-    const { appName, homeLink, links, signOutTxt, chLangTxt } = store.nav;
-    
-    // Home link
-    let home = "";
-    
-    if (typeof homeLink === "undefined") {
-        home = (activeLang === "EN") ? "/" : "/sr/";
-    } else {
-        home = homeLink;
-    }
+    const {store, signOut} = useContext(GlobalContext);
+    const { t, i18n } = useTranslation('navigation');
+
+    const links = [
+        {
+            label: t('convertLink'),
+            href: "convert",
+            active: false,
+            protected: false
+        },
+        {
+            label: t('mySavedResultsLink'),
+            href: "saved-results",
+            active: false,
+            protected: true
+        },
+        {
+            label: t('signInRegisterLink'),
+            href: "sign-in",
+            active: false,
+            protected: false
+        },
+        {
+            label: t('aboutLink'),
+            href: "about",
+            active: false,
+            protected: false
+        }
+    ];
 
     // Languages menu
     const [languagesMenuTriggerEl, setLanguagesMenuTriggerEl] = useState(null);
@@ -70,9 +88,9 @@ const Navigation = () => {
                 return (
                     <BottomNavigationAction
                         component={NavLink} 
-                        to={homeLink + item.href}
+                        to={item.href}
                         exact={true}
-                        label={item.name}
+                        label={item.label}
                         showLabel={true}
                         key={index} />
                 )}
@@ -90,11 +108,11 @@ const Navigation = () => {
                     } else {
                     return (
                         <NavLink 
-                            to={homeLink + item.href}
+                            to={item.href}
                             exact={true}
                             key={index}
                             onClick={() => triggerDrawer()}>
-                                {item.name}
+                                {item.label}
                         </NavLink>
                     )}
                 })
@@ -117,7 +135,7 @@ const Navigation = () => {
                     { store.currentUser.email.split("@")[0] }
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className={classes.ExpansionDetails}>
-                    <MenuItem onClick={(e) => { e.preventDefault(); signOut() }}>{signOutTxt}</MenuItem>
+                    <MenuItem onClick={(e) => { e.preventDefault(); signOut() }}>{t('signOutTxt')}</MenuItem>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
             </> :
@@ -139,7 +157,7 @@ const Navigation = () => {
                     onClose={() => closeUserMenu()}
                     onBlur={() => closeUserMenu()} >
 
-                    <MenuItem onClick={(e) => { e.preventDefault(); signOut() }}>{signOutTxt}</MenuItem>
+                    <MenuItem onClick={(e) => { e.preventDefault(); signOut() }}>{t('signOutTxt')}</MenuItem>
                 </Menu>
             </>
         }
@@ -158,8 +176,8 @@ const Navigation = () => {
                         <Grid item md={3}>
                             <BottomNavigationAction 
                                 component={NavLink} 
-                                to={home} 
-                                label={<Logo title={appName} />} 
+                                to="/"
+                                label={<Logo title={t("appName")} />} 
                                 activeClassName=""
                                 showLabel={true} />
                         </Grid>
@@ -169,10 +187,10 @@ const Navigation = () => {
                             {navigationLinks()}
                             {getUser()}
                             </Hidden>
-                            <Tooltip title={chLangTxt}>
+                            <Tooltip title={t('chLangTxt')}>
                                 <BottomNavigationAction
                                     component={Button}
-                                    label={<><TranslateIcon /> {activeLang} <ExpandMoreIcon /></>}
+                                    label={<><TranslateIcon /> {i18n.resolvedLanguage === "sr" ? "СРП" : i18n.resolvedLanguage} <ExpandMoreIcon /></>}
                                     showLabel={true}
                                     aria-controls="languages-menu" 
                                     aria-haspopup="true" 
@@ -185,10 +203,11 @@ const Navigation = () => {
                                     anchorEl={languagesMenuTriggerEl}
                                     open={Boolean(languagesMenuTriggerEl)}
                                     onClose={() => closeLanguagesMenu()}
-                                    onBlur={() => closeLanguagesMenu()} >
+                                    onBlur={() => closeLanguagesMenu()}
+                                >
 
-                                    <MenuItem component={Link} to="/" onClick={() => { changeLang("EN"); closeLanguagesMenu() }}>EN</MenuItem>
-                                    <MenuItem component={Link} to="/sr/" onClick={() => {changeLang("SR"); closeLanguagesMenu()}}>СРП</MenuItem>
+                                    <MenuItem onClick={() => {i18n.changeLanguage("en"); closeLanguagesMenu()}}>EN</MenuItem>
+                                    <MenuItem onClick={() => {i18n.changeLanguage("sr"); closeLanguagesMenu()}}>СРП</MenuItem>
                                 </Menu>
                         </Grid>
                     </Grid>
@@ -199,8 +218,8 @@ const Navigation = () => {
                 onClose={() => triggerDrawer()}>
                 
                 <Grid container direction="column" className={classes.SideNav}>
-                    <NavLink to={homeLink} exact={true} onClick={() => triggerDrawer()}>
-                        <Logo title={appName} drawer={true} />
+                    <NavLink to="/" exact={true} onClick={() => triggerDrawer()}>
+                        <Logo title={t('appName')} drawer={true} />
                     </NavLink>
                     {sidebarLinks()}
                     {getUser("mobile")}
