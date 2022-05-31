@@ -6,12 +6,15 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 import * as serviceWorker from './serviceWorker';
 import { ThemeProvider } from '@material-ui/core/styles';
+import GlobalProvider from './context/GlobalState';
 import theme from './theme';
 
 ReactDOM.render(
     <I18nextProvider i18n={i18n}>
         <ThemeProvider theme={theme}>
-            <App />
+            <GlobalProvider>
+                <App />
+            </GlobalProvider>
         </ThemeProvider>
     </I18nextProvider>
     , document.getElementById('root'));

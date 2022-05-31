@@ -124,8 +124,7 @@ const Converter = () => {
                 });
 
         } else {
-            const {convertFailMsg} = context.store.pages.converter;
-            setPopoverText(convertFailMsg);
+            setPopoverText(t('convertFailMsg'));
             openPopover(e);
         }
     }
@@ -139,7 +138,7 @@ const Converter = () => {
         firebase.saveResult(context.store.currentUser.uid, saveAs, currencyDate, amount, from, converted, to)
         .then(() => {
             closeDialog();
-            setSnackbarMessage(context.store.pages.converter.savedResultMsg);
+            setSnackbarMessage(t('savedResultMsg'));
             openSnackbar();
         })
         .catch((error) => {

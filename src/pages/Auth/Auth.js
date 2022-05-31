@@ -3,7 +3,6 @@ import { Grid, Paper, Tab, Tabs, Box, TextField, Button, Popover, Typography } f
 import SwipeableViews from 'react-swipeable-views';
 import { GlobalContext } from '../../context/GlobalState';
 import { withRouter, Redirect } from 'react-router-dom';
-import firebase from '../../services/Firebase';
 import { useTranslation } from 'react-i18next';
 
 import classes from './Auth.module.scss';
@@ -40,7 +39,7 @@ const Auth = ({history}) => {
     const signUpBtnRef = React.useRef();
 
     useEffect(() => {
-        context.loadingComplete(true);
+        context.setLoading(false);
     }, []);
 
     const signInChange = (e) => {
@@ -48,11 +47,9 @@ const Auth = ({history}) => {
     }
 
     const handleSignIn = (e) => {
-        firebase.login(signIn.si_email, signIn.si_password)
-        .then((user) => {
-            context.setUser(user);
+        context.signIn(signIn.si_email, signIn.si_password)
+        .then(() => {
             history.push('/');
-            console.log(context.store.currentUser);
         })
         .catch((error) => {
             setPopoverText(error.message);
@@ -61,11 +58,9 @@ const Auth = ({history}) => {
     }
 
     const handleSignInGoogle = (e) => {
-        firebase.loginGoogle()
-        .then((user) => {
-            context.setUser(user);
+        context.signInGoogle()
+        .then(() => {
             history.push("/");
-            console.log(context.store.currentUser);
         })
         .catch((error) => {
             setPopoverText(error.message);
@@ -78,7 +73,7 @@ const Auth = ({history}) => {
     }
 
     const handleSignUp = (e) => {
-        firebase.register(signUp.email, signUp.password)
+        context.signUp(signUp.email, signUp.password)
         .then(() => { history.push("sign-in") })
         .catch((error) => {
             setPopoverText(error.message);

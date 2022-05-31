@@ -8,7 +8,6 @@ import classes from "./Home.module.scss";
 
 const Home = () => {
     const { t } = useTranslation('home');
-    const context = useContext(GlobalContext);
     const [fadeBg, setFadeBg] = useState(false);
     const [zoomTitle, setZoomTitle] = useState(false);
     const [zoomMap, setZoomMap] = useState(false);
@@ -24,9 +23,6 @@ const Home = () => {
         setTimeout(() => setSlide((slide) => (!slide)), 1500);
         setTimeout(() => setSlideBtn((slideBtn) => (!slideBtn)), 1800);
     }, []);
-
-    const { title, mapTxt, bottomTxt, btnTxt } = 
-    (typeof context.store.pages.home !== "undefined") ? context.store.pages.home : "";
 
     return (
         <Fade in={fadeBg}>
@@ -59,7 +55,7 @@ const Home = () => {
                             <Link
                                 variant="contained" 
                                 color="primary"
-                                to={context.store.nav.homeLink + "convert"}
+                                to={"/convert"}
                                 component={Button}
                             >
                                     {t('btnTxt')}

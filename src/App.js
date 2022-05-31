@@ -1,26 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './App.scss';
-import GlobalProvider from './context/GlobalState';
 import { BrowserRouter as Router } from "react-router-dom";
+import {GlobalContext} from './context/GlobalState';
 import Navigation from './components/Navigation/Navigation';
-import ModalMessage from './components/ModalMessage';
-import Preloader from './components/Preloader';
+import Loader from './components/Loader';
 import AppRoutes from './AppRoutes';
 
 const App = () => {
 
-    return (
-      <div className="App">
-        <GlobalProvider>
-          <ModalMessage />
-          <Preloader />
-          <Router>
-            <Navigation />
-            <AppRoutes />
-          </Router>
-        </GlobalProvider>
-      </div>
-    );
+  const context = useContext(GlobalContext);
+
+  return (
+    <div className="App">
+      {context.store.loading && <Loader />}
+      <Router>
+        <Navigation />
+        <AppRoutes />
+      </Router>
+    </div>
+  );
 }
 
 export default App;

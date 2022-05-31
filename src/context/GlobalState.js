@@ -1,115 +1,90 @@
-import React, {Component} from 'react';
-import data from '../services/Data';
+import React, { useEffect, useState } from 'react';
 import firebase from '../services/Firebase';
 import reducer from './reducer';
+import useLocalStorage from 'use-local-storage';
 
 export const GlobalContext = React.createContext();
 
-class GlobalProvider extends Component {
-    state = {
-        activeLang: "EN",
+const GlobalProvider = ({ children }) => {
+
+    const [userLS, setUserLS] = useLocalStorage("user", undefined);
+
+    // initial global state
+    const [state, setState] = useState({
         loading: false,
-        nav: {},
-        pages: {},
-        footer: {},
-        modalOpened: false,
-        modalHeader: "",
-        modalContent: "",
-        modalCloseTxt: "",
-        dispatch: action => this.setState(state => reducer(state, action))
+        currentUser: userLS,
+        dispatch: action => setState(state => reducer(state, action))
+    });
+
+    useEffect(() => {
+        authListener();
+    }, [state.currentUser, userLS]);
+
+    const setLoading = (isLoading) => {
+        setState({ ...state, loading: isLoading });
     }
 
-    constructor() {
-        super();
-        this.changeLang = this.changeLang.bind(this);
-        this.loadingComplete = this.loadingComplete.bind(this);
-        this.setUser = this.setUser.bind(this);
-        this.signOut = this.signOut.bind(this);
-        this.authListener = this.authListener.bind(this);
-    }
-
-    componentDidMount() {
-
-        let url = document.URL;
-
-        if (url.indexOf("/sr/") > -1) {
-            this.setState({activeLang: "СРП"});
-            this.changeLang("SR");
-            return;
-        }
-
-        let lang = this.state.activeLang.toLowerCase();
-
-        data.getData(lang)
-        .then(resp => {
-            this.setState({
-                nav: resp.data.nav,
-                pages: resp.data.pages,
-                footer: resp.data.footer
-            })
-            // console.log(this.state);
-        })
-        .catch((err) => { console.log(err) });
-
-        this.authListener();
-    }
-
-    changeLang(lang) {
-        this.loadingComplete(false);
-
-        data.getData(lang.toLowerCase())
-        .then(resp => {
-            this.setState({
-                nav: resp.data.nav,
-                pages: resp.data.pages,
-                footer: resp.data.footer
-            })
-        })
-        .then(() => this.loadingComplete(true))
-        .catch((err) => { console.log(err) });
-
-        if (lang === "SR") lang = "СРП";
-
-        this.setState({ activeLang: lang });
-    }
-
-    loadingComplete(completed) {
-        this.setState({ loading: !completed });
-      }
-
-    setUser(user) {
-        this.setState({currentUser: user});
-        
-    }
-
-    signOut() {
-        firebase.auth.signOut();
-        this.setState({ currentUser: undefined });
-    }
-
-    authListener() {
-        firebase.auth.onAuthStateChanged((user) => {
-            if (user) {
-                this.setState({currentUser: user});
-             }
+    const signUp = async (email, password) => {
+        firebase.register(email, password)
+        .then((user) => {
+            setUser(user);
         });
     }
 
-    render() {
-        return (
-            <GlobalContext.Provider value={{
-                store: this.state,
-                changeLang: this.changeLang,
-                loadingComplete: this.loadingComplete,
-                openModal: this.openModal,
-                closeModal: this.closeModal,
-                setUser: this.setUser,
-                signOut: this.signOut
-            }}>
-                {this.props.children}
-            </GlobalContext.Provider>
-        );
+    const setUser = (user) => {
+        setState({ ...state, currentUser: user });
+        setUserLS(user);
     }
+
+    const signIn = async (email, password) => {
+        firebase.login(email, password)
+            .then((user) => {
+                setUser(user);
+            });
+    }
+
+    const signInGoogle = async () => {
+        firebase.loginGoogle()
+            .then((user) => {
+                setUser(user);
+            });
+    }
+
+    const signOut = async () => {
+        firebase.auth.signOut()
+            .then(() => {
+                setState({ ...state, currentUser: undefined });
+                setUserLS(undefined);
+            });
+    }
+
+    const authListener = () => {
+        if (userLS) {
+            setState({ ...state, currentUser: userLS });
+        } else {
+            firebase.auth.onAuthStateChanged((user) => {
+                if (user) {
+                    setUser(user);
+                } else {
+                    setUser(undefined);
+                }
+            });
+        }
+    }
+
+    return (
+        <GlobalContext.Provider value={{
+            store: state,
+            setLoading: setLoading,
+            setUser: setUser,
+            signUp: signUp,
+            signIn: signIn,
+            signInGoogle: signInGoogle,
+            signOut: signOut
+        }}>
+            {children}
+        </GlobalContext.Provider>
+    );
 }
 
 export default GlobalProvider;

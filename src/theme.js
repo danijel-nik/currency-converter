@@ -1,8 +1,7 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
 import { green, blue, grey } from '@material-ui/core/colors';
 
-// https://www.youtube.com/watch?v=H_PO_GY4xXU
-const theme = createMuiTheme({
+const theme = createTheme({
     palette: {
         // type: 'dark',
         // primary: blue,
