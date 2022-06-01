@@ -34,7 +34,7 @@ const Converter = () => {
     const context = useContext(GlobalContext);
 
     useEffect(() => {
-        context.store.dispatch({type: "LOADING_COMPLETE", payload: false});
+        context.setLoading(true);
 
         data.getCurrencyList()
         .then(resp => {
@@ -46,7 +46,7 @@ const Converter = () => {
             ));
             setCurrencies(currencyList);
         })
-        .then(() => context.store.dispatch({type: "LOADING_COMPLETE", payload: true}))
+        .then(() => context.setLoading(false))
         .catch((err) => { console.log(err) });
 
     }, []);

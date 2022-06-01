@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import firebase from '../services/Firebase';
-import reducer from './reducer';
+import reducer from './AppReducer';
 import useLocalStorage from 'use-local-storage';
 
 export const GlobalContext = React.createContext();
@@ -21,7 +21,20 @@ const GlobalProvider = ({ children }) => {
     }, [state.currentUser, userLS]);
 
     const setLoading = (isLoading) => {
-        setState({ ...state, loading: isLoading });
+        state.dispatch({
+            type: 'LOADING',
+            payload: isLoading
+        });
+    }
+
+    const setUser = (user, setLocalStorage = true) => {
+        state.dispatch({
+            type: 'CURRENT_USER',
+            payload: user
+        });
+        if (setLocalStorage) {
+            setUserLS(user);
+        }
     }
 
     const signUp = async (email, password) => {
@@ -29,11 +42,6 @@ const GlobalProvider = ({ children }) => {
         .then((user) => {
             setUser(user);
         });
-    }
-
-    const setUser = (user) => {
-        setState({ ...state, currentUser: user });
-        setUserLS(user);
     }
 
     const signIn = async (email, password) => {
@@ -53,14 +61,13 @@ const GlobalProvider = ({ children }) => {
     const signOut = async () => {
         firebase.auth.signOut()
             .then(() => {
-                setState({ ...state, currentUser: undefined });
-                setUserLS(undefined);
+                setUser(undefined);
             });
     }
 
     const authListener = () => {
         if (userLS) {
-            setState({ ...state, currentUser: userLS });
+            setUser(userLS, false);
         } else {
             firebase.auth.onAuthStateChanged((user) => {
                 if (user) {
