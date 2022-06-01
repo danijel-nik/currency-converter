@@ -144,7 +144,12 @@ const Navigation = () => {
                         <>
                             <BottomNavigationAction
                                 component={Button}
-                                label={<>{store.currentUser.email.split("@")[0]} <ExpandMoreIcon /></>}
+                                label={
+                                    <>
+                                        <span className={classes.UserLabel}>{store.currentUser.email.split("@")[0]}</span> 
+                                        <ExpandMoreIcon />
+                                    </>
+                                }
                                 showLabel={true}
                                 aria-controls="user-menu"
                                 aria-haspopup="true"
@@ -175,7 +180,7 @@ const Navigation = () => {
                             <Grid><ListRoundedIcon className={classes.MenuTrigger} onClick={() => triggerDrawer()} /></Grid>
                             <Grid item className={[classes.middle, classes.middleLeft].join(" ")}></Grid>
                         </Hidden>
-                        <Grid item md={3}>
+                        <Grid item md={3} className={classes.LogoWrapper}>
                             <BottomNavigationAction
                                 component={NavLink}
                                 to="/"

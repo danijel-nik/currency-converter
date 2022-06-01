@@ -1,10 +1,14 @@
 .Navigation {
     background-color: #343a40 !important;
     overflow: hidden;
-    a, button {
+    align-items: center;
+
+    a,
+    button {
         max-width: none !important;
         padding: 12px !important;
-        span > span {
+
+        span>span {
             color: white !important;
         }
     }
@@ -17,10 +21,12 @@
         &:focus {
             background-color: transparent !important;
         }
-        span > span:first-child > span {
+
+        span>span:first-child>span {
             position: relative;
             top: 1px;
         }
+
         svg {
             position: relative;
             top: 2px;
@@ -40,12 +46,16 @@
 
     .navItems {
         text-align: right;
-        a, button {
+
+        a,
+        button {
             padding: 18px 12px !important;
             transition: .3s ease;
+
             span {
                 font-size: 1em !important;
             }
+
             &:hover {
                 background-color: rgba(0, 0, 0, .1);
             }
@@ -60,22 +70,46 @@
     }
 }
 
-.UserTrigger {
-    span {
-        text-transform: capitalize !important;
+.LogoWrapper {
+    display: flex;
+    a {
+        max-width: 180px !important;
     }
-    &:active, &:focus {
+}
+
+.UserTrigger {
+
+    span {
+        display: flex;
+        align-items: center;
+    }
+
+    .UserLabel {
+        display: inline-block;
+        max-width: 200px;
+        text-overflow: ellipsis;
+        overflow-x: hidden;
+        text-transform: capitalize !important;
+        padding-bottom: 2px;
+    }
+
+    &:active,
+    &:focus {
         background-color: transparent !important;
     }
+
     &:hover {
         background-color: rgba(0, 0, 0, .1);
     }
+
     @media only screen and (max-width: 959px) {
         width: 100%;
         max-width: inherit !important;
+
         &:hover {
             background-color: rgba(0, 0, 0, .2) !important;
         }
+
         svg {
             position: relative;
             top: 6px;
@@ -87,16 +121,18 @@
 .DropdownMenu {
     div {
         min-width: 80px;
+
         ul {
             padding-top: 0 !important;
             padding-bottom: 0 !important;
+
             a {
                 justify-content: center;
                 padding-top: 10px;
                 padding-bottom: 10px;
             }
         }
-    } 
+    }
 }
 
 .ExpansionTitle {
@@ -109,11 +145,12 @@
 
 .ExpansionDetails {
     padding: 0 !important;
-    
+
     li {
         width: 100% !important;
         padding: 10px;
         justify-content: center;
+
         &:hover {
             background-color: rgba(0, 0, 0, .2);
         }

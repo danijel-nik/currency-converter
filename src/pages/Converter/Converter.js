@@ -302,7 +302,6 @@ const Converter = () => {
                             label={t('enterValue')} 
                             name="amount"
                             onChange={onChange}
-                            validate={true}
                             required={true} />
                     </Grid>
                     <Grid item xs={12} sm={6} md={3}>
@@ -421,7 +420,6 @@ const Converter = () => {
                     variant="outlined" 
                     name="saveAs"
                     onChange={onChange}
-                    validate={true}
                     label={t('saveAs')}
                     fullWidth />
                 </DialogContent>
