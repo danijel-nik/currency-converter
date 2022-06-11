@@ -24,13 +24,17 @@ const config = {
 // const settings = {timestampsInSnapshots: true};
 
 class Firebase {
+
+    auth: any;
+    db: any;
+
     constructor() {
         app.initializeApp(config);
         this.auth = app.auth();
         this.db = app.firestore(); // .settings(settings);
     }
 
-    login(email, password) {
+    login(email: string, password: string) {
         return this.auth.signInWithEmailAndPassword(email.trim(), password);
     }
 
@@ -43,11 +47,11 @@ class Firebase {
         return this.auth.signOut();
     }
 
-    register(email, password) {
+    register(email: string, password: string) {
         return this.auth.createUserWithEmailAndPassword(email, password);
     }
 
-    async saveResult(userId, saveAs, date, amount, from, converted, to) {
+    async saveResult(userId: string, saveAs: string, date: Date, amount: number, from: string, converted: number, to: string) {
         await this.db.collection("currencies").doc().set({
             name: saveAs,
             date,
@@ -59,12 +63,12 @@ class Firebase {
         })
     }
 
-    getResults(userId) {
+    getResults(userId: string) {
         // this.db.collection("currencies").where("amount", "==", "1078"); //.doc(id); // for specific doc
         return this.db.collection("currencies").where("userId", "==", userId).get();
     }
 
-    async deleteResult(id) {
+    async deleteResult(id: string) {
         await this.db.collection("currencies").doc(id).delete();
     }
 }

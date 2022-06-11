@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { HeadersDefaults } from 'axios';
 
 const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env;
 const headers = {
@@ -6,12 +6,14 @@ const headers = {
     "x-rapidapi-key": REACT_APP_API_KEY
 }
 
-class Data {
+interface CommonHeaderProperties extends HeadersDefaults {
+    "x-rapidapi-host": string;
+    "x-rapidapi-key": string;
+}
 
-    getData(lang) {
-        let langLink = `/assets/lang/${lang}.json`;
-        return axios.get(langLink);
-    }
+axios.defaults.headers = headers as CommonHeaderProperties;
+
+class Data {
 
     getCurrencyList() {
         const currenciesLink = `https://${REACT_APP_API_HOST}/currency/list`;
@@ -19,12 +21,12 @@ class Data {
             params: {
                 format: "json"
             },
-            headers,
+            // headers,
             timeout: 1500
         });
     }
 
-    convertCurrency(amount, from, to, date, historical) {
+    convertCurrency(amount: number, from: string, to: string, date: Date, historical: boolean) {
 
         let link = (historical) ? `https://${REACT_APP_API_HOST}/currency/historical/${date}` : `https://${REACT_APP_API_HOST}/currency/convert`;
 
@@ -35,7 +37,7 @@ class Data {
                 to: to,
                 amount: amount
             },
-            headers
+            // headers
         });
     }
 }

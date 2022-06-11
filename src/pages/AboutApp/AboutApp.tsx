@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Paper, Grid } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 

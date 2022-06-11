@@ -47,9 +47,9 @@ const Navigation = () => {
     ];
 
     // Languages menu
-    const [languagesMenuTriggerEl, setLanguagesMenuTriggerEl] = useState(null);
+    const [languagesMenuTriggerEl, setLanguagesMenuTriggerEl] = useState<null | Element>(null);
 
-    const openLanguagesMenu = (event) => {
+    const openLanguagesMenu = (event: React.MouseEvent) => {
         setLanguagesMenuTriggerEl(event.currentTarget);
     };
 
@@ -58,9 +58,9 @@ const Navigation = () => {
     };
 
     // User menu
-    const [userMenuTriggerEl, setUserMenuTriggerEl] = useState(null);
+    const [userMenuTriggerEl, setUserMenuTriggerEl] = useState<null | Element>(null);
 
-    const openUserMenu = (event) => {
+    const openUserMenu = (event: React.MouseEvent) => {
         setUserMenuTriggerEl(event.currentTarget);
     };
 
@@ -69,7 +69,7 @@ const Navigation = () => {
     };
 
     // Drawer (sidebar menu)
-    const [drawerState, setDrawerState] = useState(false);
+    const [drawerState, setDrawerState] = useState<boolean>(false);
 
     const triggerDrawer = () => {
         if (drawerState) {

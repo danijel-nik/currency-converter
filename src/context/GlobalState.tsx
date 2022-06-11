@@ -2,32 +2,37 @@ import React, { useEffect, useState } from 'react';
 import firebase from '../services/Firebase';
 import reducer from './AppReducer';
 import useLocalStorage from 'use-local-storage';
+import { IGlobalState, IReducer } from "./types";
 
-export const GlobalContext = React.createContext();
+export const GlobalContext: React.Context<any> = React.createContext({});
 
-const GlobalProvider = ({ children }) => {
+export interface GlobalProviderProps {
+    children: React.ReactNode;
+};
 
-    const [userLS, setUserLS] = useLocalStorage("user", undefined);
+const GlobalProvider = ({ children }: GlobalProviderProps) => {
+
+    const [userLS, setUserLS] = useLocalStorage<object | undefined>("user", undefined);
 
     // initial global state
-    const [state, setState] = useState({
+    const [state, setState] = useState<any>({
         loading: false,
         currentUser: userLS,
-        dispatch: action => setState(state => reducer(state, action))
+        dispatch: (action: IReducer) => setState((state: IGlobalState) => reducer(state, action))
     });
 
     useEffect(() => {
         authListener();
     }, [state.currentUser, userLS]);
 
-    const setLoading = (isLoading) => {
+    const setLoading = (isLoading: boolean) => {
         state.dispatch({
             type: 'LOADING',
             payload: isLoading
         });
     }
 
-    const setUser = (user, setLocalStorage = true) => {
+    const setUser = (user: object | undefined, setLocalStorage = true) => {
         state.dispatch({
             type: 'CURRENT_USER',
             payload: user
@@ -37,23 +42,23 @@ const GlobalProvider = ({ children }) => {
         }
     }
 
-    const signUp = async (email, password) => {
+    const signUp = async (email: string, password: string) => {
         firebase.register(email, password)
-        .then((user) => {
+        .then((user: any) => {
             setUser(user);
         });
     }
 
-    const signIn = async (email, password) => {
+    const signIn = async (email: string, password: string) => {
         firebase.login(email, password)
-            .then((user) => {
+            .then((user: any) => {
                 setUser(user);
             });
     }
 
     const signInGoogle = async () => {
         firebase.loginGoogle()
-            .then((user) => {
+            .then((user: any) => {
                 setUser(user);
             });
     }
@@ -69,7 +74,7 @@ const GlobalProvider = ({ children }) => {
         if (userLS) {
             setUser(userLS, false);
         } else {
-            firebase.auth.onAuthStateChanged((user) => {
+            firebase.auth.onAuthStateChanged((user: any) => {
                 if (user) {
                     setUser(user);
                 } else {

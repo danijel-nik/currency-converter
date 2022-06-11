@@ -1,7 +1,6 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Grid, Button, Slide, Zoom, Fade } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import { GlobalContext } from '../../context/GlobalState';
 import { useTranslation } from 'react-i18next';
 
 import classes from "./Home.module.scss";

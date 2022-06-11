@@ -1,4 +1,6 @@
-export default (state, action) => {
+import { IGlobalState, IReducer } from "./types";
+
+export default (state: IGlobalState, action: IReducer) => {
     switch (action.type) {
         case 'LOADING':
             return {
