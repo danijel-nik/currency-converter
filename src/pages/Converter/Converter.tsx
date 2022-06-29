@@ -92,7 +92,6 @@ const Converter = () => {
                     item.currency
                 ));
                 requestedCurrencies = to + ", " + ec.join(", ");
-                console.log(requestedCurrencies);
             } else {
                 requestedCurrencies = to;
             }
