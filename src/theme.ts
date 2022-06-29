@@ -14,9 +14,6 @@ const theme = createTheme({
             dark: grey[200]
         }
     },
-    status: {
-        danger: "orange"
-    }
 });
 
 export default theme;

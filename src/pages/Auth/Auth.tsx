@@ -1,21 +1,25 @@
-import React, { useEffect, useContext, useState, useRef, createRef } from 'react';
+import React, { useEffect, useContext, useState, useRef } from 'react';
 import { Grid, Paper, Tab, Tabs, Box, TextField, Button, Popover, Typography } from '@material-ui/core';
-import SwipeableViews from 'react-swipeable-views';
+// import SwipeableViews from 'react-swipeable-views';
 import { GlobalContext } from '../../context/GlobalState';
 import { withRouter, Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import classes from './Auth.module.scss';
 
-const Auth = ({history}) => {
+interface AuthProps {
+    history: any
+} 
+
+const Auth = ({history}: AuthProps) => {
 
     const { t } = useTranslation('auth');
 
     const [tabValue, setTabValue] = useState("sign-in");
-    const handleChangeTab = (newValue) => {
+    const handleChangeTab = (newValue: any) => {
         setTabValue(newValue);
       };
-    const a11yProps = (index) => {
+    const a11yProps = (index: string) => {
         return {
           id: `wrapped-tab-${index}`,
           'aria-controls': `wrapped-tabpanel-${index}`,
@@ -35,47 +39,47 @@ const Auth = ({history}) => {
 
     const context = useContext(GlobalContext);
 
-    const signInBtnRef = React.useRef();
-    const signUpBtnRef = React.useRef();
+    const signInBtnRef = useRef();
+    const signUpBtnRef = useRef();
 
     useEffect(() => {
         context.setLoading(false);
     }, []);
 
-    const signInChange = (e) => {
+    const signInChange = (e: any) => {
         setSignIn({...signIn, [e.target.name]: e.target.value});
     }
 
-    const handleSignIn = (e) => {
+    const handleSignIn = (e: any) => {
         context.signIn(signIn.si_email, signIn.si_password)
         .then(() => {
             history.push('/');
         })
-        .catch((error) => {
+        .catch((error: any) => {
             setPopoverText(error.message);
         });
         openPopover(e);
     }
 
-    const handleSignInGoogle = (e) => {
+    const handleSignInGoogle = (e: any) => {
         context.signInGoogle()
         .then(() => {
             history.push("/");
         })
-        .catch((error) => {
+        .catch((error: any) => {
             setPopoverText(error.message);
         });
         openPopover(e);
     }
 
-    const signUpChange = (e) => {
+    const signUpChange = (e: any) => {
         setSignUp({...signUp, [e.target.name]: e.target.value});
     }
 
-    const handleSignUp = (e) => {
+    const handleSignUp = (e: any) => {
         context.signUp(signUp.email, signUp.password)
         .then(() => { history.push("sign-in") })
-        .catch((error) => {
+        .catch((error: any) => {
             setPopoverText(error.message);
         });
         openPopover(e);
@@ -84,7 +88,7 @@ const Auth = ({history}) => {
     // Popover
     const [popoverTriggerEl, setPopoverTriggerEl] = useState(null);
     const [popoverText, setPopoverText] = useState("");
-    const openPopover = (event) => {
+    const openPopover = (event: any) => {
         setPopoverTriggerEl(event.currentTarget);
     };
     const closePopover = () => {
@@ -137,7 +141,8 @@ const Auth = ({history}) => {
                                 color="primary"
                                 className="waves-effect waves-light"
                                 onClick={handleSignIn}
-                                ref={signInBtnRef} >
+                                // ref={signInBtnRef} 
+                            >
                                     {t('signInBtn')}
                             </Button>
                             <Popover
@@ -197,17 +202,17 @@ const Auth = ({history}) => {
                             onChange={signUpChange}
                         />
 
-                        <div align="right">
+                        <Box textAlign="right">
                             <Button 
                                 variant="contained"
                                 color="primary"
                                 className="waves-effect waves-light"
                                 onClick={handleSignUp}
-                                ref={signUpBtnRef}
+                                // ref={signUpBtnRef}
                                 >
                                     {t('signUpBtn')}
                             </Button>
-                        </div>
+                        </Box>
                         
                     </Box> : ""}
             </Paper>

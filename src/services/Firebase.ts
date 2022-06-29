@@ -51,7 +51,7 @@ class Firebase {
         return this.auth.createUserWithEmailAndPassword(email, password);
     }
 
-    async saveResult(userId: string, saveAs: string, date: Date, amount: number, from: string, converted: number, to: string) {
+    async saveResult(userId: string, saveAs: string, date: string, amount: string, from: string, converted: string, to: string) {
         await this.db.collection("currencies").doc().set({
             name: saveAs,
             date,

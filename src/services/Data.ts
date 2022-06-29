@@ -26,7 +26,7 @@ class Data {
         });
     }
 
-    convertCurrency(amount: number, from: string, to: string, date: Date, historical: boolean) {
+    convertCurrency(amount: string, from: string, to: string, date: string, historical: boolean) {
 
         let link = (historical) ? `https://${REACT_APP_API_HOST}/currency/historical/${date}` : `https://${REACT_APP_API_HOST}/currency/convert`;
 

@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Grid, Button, Slide, Zoom, Fade } from '@material-ui/core';
-import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import classes from "./Home.module.scss";
 
-const Home = () => {
+interface HomeProps {
+    history: any
+} 
+
+const Home = ({ history }: HomeProps) => {
     const { t } = useTranslation('home');
     const [fadeBg, setFadeBg] = useState(false);
     const [zoomTitle, setZoomTitle] = useState(false);
@@ -51,14 +55,13 @@ const Home = () => {
                             <h3>{t('bottomTxt')}</h3>
                         </Slide>
                         <Slide direction="up" in={slideBtn}>
-                            <Link
-                                variant="contained" 
+                            <Button 
                                 color="primary"
-                                to={"/convert"}
-                                component={Button}
+                                variant="contained"
+                                onClick={() => history.push("/convert")}
                             >
                                     {t('btnTxt')}
-                            </Link>
+                            </Button>
                         </Slide>
                     </div>
             </section>
@@ -66,4 +69,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default withRouter(Home);

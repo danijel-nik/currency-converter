@@ -10,13 +10,13 @@ import classes from "./SavedResults.module.scss";
 const SavedResults = () => {
 
     const { t } = useTranslation('savedResults');
-    const [savedData, setSavedData] = useState([]);
+    const [savedData, setSavedData] = useState<any>([]);
     const { store, setLoading } = useContext(GlobalContext);
 
     useEffect(() => {
         setLoading(true);
         firebase.getResults(store.currentUser.uid)
-            .then((resp) => {
+            .then((resp: any) => {
                 setSavedData(resp.docs);
             });
     }, []);
@@ -25,11 +25,11 @@ const SavedResults = () => {
         setLoading(false);
     }, [savedData]);
 
-    const deleteData = (id) => {
+    const deleteData = (id: string) => {
 
         firebase.deleteResult(id)
             .then(() => {
-                setSavedData(savedData.filter((item) => item.id !== id));
+                setSavedData(savedData.filter((item: any) => item.id !== id));
             });
     }
 
@@ -48,7 +48,7 @@ const SavedResults = () => {
                             </TableRow>
                         </TableHead> : ""}
                     <TableBody>
-                        {(Object.entries(savedData).length > 0) ? Object.keys(savedData).map((key) => (
+                        {(Object.entries(savedData).length > 0) ? Object.keys(savedData).map((key: any) => (
                             <TableRow key={key}>
                                 <TableCell>{savedData[key].data().name}</TableCell>
                                 <TableCell>{savedData[key].data().date}</TableCell>
